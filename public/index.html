@@ -1,0 +1,63 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="monkeyVerndale">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Monkey Search</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/overrides.css">
+	<!-- SPELLS -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script><!-- load angular -->
+
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<script src="js/services/hashtag.factory.js"></script> <!-- load our hashtag service -->
+	<script src="js/services/dictionary.factory.js"></script> <!-- load our dictionary service-->
+	<script src="js/core.js"></script> <!-- load our main application -->
+
+</head>
+<!-- SET THE CONTROLLER -->
+<body ng-controller="mainController" class="transparent">
+	<div class="jumbotron">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1 class="color-primary text-center">#monkey</h1>
+				<p class="lead btn-block text-center">
+					<strong>Enter a word</strong> <br>
+					Enter a search term and we’ll give you <br> a bunch of stuff!
+				</p>
+				<div class="input-group">
+					<input ng-model="query" type="text" class="form-control input-lg" placeholder="Search for...">
+					  <span class="input-group-btn">
+						<button class="btn btn-secondary" ng-click="searchHashTag(query)" type="button">Go!</button>
+					  </span>
+				</div>
+				<div class="alert alert-warning text-center" ng-if="showError">
+					<small class="color-warning"><strong>Warning! </strong>You must enter a hashtag to fullfill your search. Please try again...</small>
+				</div>
+				<div class="text-center">
+					<small> Displaying results from <a href="http://{{source}}" target="_blank">{{source}}</a></small>
+				</div>
+				<div class="row" ng-if="!hideHashtags">
+					<div  class="col-md-6"  ng-repeat="hash in hashtags.statuses">
+						<p class="color-primary">{{hash.text}}</p>
+					</div>
+				</div>
+				<div class="row" ng-if="hideHashtags">
+					<div class="col-md-6"  ng-repeat="recommendation in hashtags">
+						<p class="color-primary text-center">{{recommendation.headword}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
