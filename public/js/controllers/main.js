@@ -28,10 +28,10 @@ angular.module('searchController', [])
 				$scope.showError = false;
 				HashtagFactory.searchHashtag(query)
 					.success(function(data) {
-						if(_.size(data.data)==0){
+						if(_.size(data.data)==0 || _.size(data.data.statuses)==0){
 							getDictionaryRecommendations(query,params)
 						}else{
-							$scope.hashtags = data;
+							$scope.hashtags = data.data;
 						}
 					});
 			}else{

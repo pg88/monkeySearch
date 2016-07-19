@@ -8,7 +8,7 @@ angular.module('twitterService', [])
 				return $http.get('/api');
 			},
 			searchHashtag : function(query) {
-				return $http.get('/api/search/',{params:{userQuery:'#'+query}});
+				return $http.get('/api/search/%23' + query);
 			},
 		}
 	}]);

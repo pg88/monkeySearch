@@ -1,4 +1,6 @@
+var express = require('express');
 var Twitter = require('twitter-node-client').Twitter;
+
 
 var error = function (err, response, body) {
     console.log('ERROR [%s]', err);
@@ -18,9 +20,10 @@ var twitter = new Twitter(config);
 
 module.exports = function (app) {
 
+    var router = express.Router();
     // api ---------------------------------------------------------------------
     // get hashtags
-    app.get('/api', function (req, res) {
+    app.get('/api/', function (req, res) {
         res.setHeader('Content-Type', 'application/json');
         var data = twitter.getSearch({ q: '#monkey','count': 50}, function(error, response, body){
             res.send({
@@ -35,14 +38,13 @@ module.exports = function (app) {
 
     });
     //search over hashtags
-    app.get('/api/search:userQuery',function(req,res){
-        console.log(req,res);
+    router.get('/api/search/:userQuery',function(req,res,next){
         if(req.params.userQuery == ''){
             res.statusCode = 404;
             return res.send('Error 404: No quote found');
         }
         res.setHeader('Content-Type', 'application/json');
-        var data = twitter.getSearch({ q: req.query.userQuery,'count': 5}, function(error, response, body){
+        var data = twitter.getSearch({ q: req.params.userQuery,'count': 5}, function(error, response, body){
             res.send({
                 error : error
             });
@@ -54,8 +56,12 @@ module.exports = function (app) {
     });
 
 
+
+    app.use('/', router);
     // application -------------------------------------------------------------
     app.get('/', function (req, res) {
         res.sendFile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
+
+
 };
