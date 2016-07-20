@@ -15,6 +15,7 @@ angular.module('searchController', [])
 		// use the service to get all the hashtags
 
 		var getDictionaryRecommendations = function(query,limit){
+			$scope.hashtags = [];
 			DictionaryFactory.getDictionarRecommendations(query,limit)
 				.success(function(data){
 					$scope.hideHashtags = true;
@@ -22,16 +23,18 @@ angular.module('searchController', [])
 					$scope.hashtags = data.results;
 				})
 		};
-
 		$scope.searchHashTag = function(query){
+			$scope.hashtags = [];
 			if(!_.isEmpty(query)){
 				$scope.showError = false;
 				HashtagFactory.searchHashtag(query)
 					.success(function(data) {
-						if(_.size(data.data)==0 || _.size(data.data.statuses)==0){
-							getDictionaryRecommendations(query,params)
-						}else{
+						if (!(_.size(data.data) == 0 || _.size(data.data.statuses) == 0)) {
 							$scope.hashtags = data.data;
+							$scope.source = 'twitter.com';
+							$scope.hideHashtags = false;
+						} else {
+							getDictionaryRecommendations(query, params)
 						}
 					});
 			}else{

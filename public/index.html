@@ -49,10 +49,16 @@
 					<div  class="col-md-6"  ng-repeat="hash in hashtags.statuses">
 						<p class="color-primary">{{hash.text}}</p>
 					</div>
+					<div class="text-center" ng-if="hashtags.statuses.length==0">
+						<strong>Sorry, we dont have any results for your search :(<br>Try with another hashtag.</strong>
+					</div>
 				</div>
 				<div class="row" ng-if="hideHashtags">
 					<div class="col-md-6"  ng-repeat="recommendation in hashtags">
 						<p class="color-primary text-center">{{recommendation.headword}}</p>
+					</div>
+					<div class="text-center" ng-if="hashtags.length==0">
+						<strong>Sorry, we dont have any results for your search :( <br>Try with another word.</strong>
 					</div>
 				</div>
 			</div>
